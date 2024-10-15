@@ -1,0 +1,43 @@
+@import (multiple) '../../../node_modules/ng-zorro-antd/src/style/themes/variable.less';
+@import './base';
+
+@layout-header-background: @component-background;
+@menu-dark-bg: #001529;
+@layout-sider-background: @menu-dark-bg;
+
+.operate-text {
+  color: @primary-color;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #f1f1f1;
+}
+
+.ant-modal {
+  border-radius: 8px; /* 修改这里的值来设置圆角大小 */
+}
+
+.ant-modal-header {
+  border-start-start-radius: 8px;
+  border-start-end-radius: 8px;
+}
+
+/* 如果需要修改 Modal 的内容区域圆角 */
+.ant-modal-content {
+  border-radius: 8px; /* 相同修改这里 */
+}
+
+.ant-btn {
+  border-radius: 6px; /* 修改这里的值来设置圆角大小 */
+}
