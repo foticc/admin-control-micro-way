@@ -1,17 +1,19 @@
-import {ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import { NzCardComponent } from 'ng-zorro-antd/card';
+import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { ClientService } from '@app/api/client.service';
+import { AntTableComponent, AntTableConfig, SortFile } from '@shared/components/ant-table/ant-table.component';
+import { CardTableWrapComponent } from '@shared/components/card-table-wrap/card-table-wrap.component';
+import { PageHeaderType } from '@shared/components/page-header/page-header.component';
 import { WaterMarkComponent } from '@shared/components/water-mark/water-mark.component';
-import {CardTableWrapComponent} from "@shared/components/card-table-wrap/card-table-wrap.component";
-import {NzBadgeComponent} from "ng-zorro-antd/badge";
-import {NzSafeAny} from "ng-zorro-antd/core/types";
-import {AntTableComponent, AntTableConfig, SortFile} from "@shared/components/ant-table/ant-table.component";
-import {PageHeaderType} from "@shared/components/page-header/page-header.component";
-import {NzModalService} from "ng-zorro-antd/modal";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {Router} from "@angular/router";
-import {NzTableQueryParams} from "ng-zorro-antd/table";
-import {NzIconDirective} from "ng-zorro-antd/icon";
-import {NzButtonComponent} from "ng-zorro-antd/button";
+import { NzBadgeComponent } from 'ng-zorro-antd/badge';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
+import { NzCardComponent } from 'ng-zorro-antd/card';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzIconDirective } from 'ng-zorro-antd/icon';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 interface SearchParam {
   ruleName: number;
@@ -21,19 +23,11 @@ interface SearchParam {
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [
-    NzCardComponent,
-    WaterMarkComponent,
-    CardTableWrapComponent,
-    NzBadgeComponent,
-    AntTableComponent,
-    NzIconDirective,
-    NzButtonComponent
-  ],
+  imports: [NzCardComponent, WaterMarkComponent, CardTableWrapComponent, NzBadgeComponent, AntTableComponent, NzIconDirective, NzButtonComponent],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.less'
 })
-export class ClientsComponent implements OnInit{
+export class ClientsComponent implements OnInit {
   searchParam: Partial<SearchParam> = {};
   @ViewChild('highLightTpl', { static: true }) highLightTpl!: TemplateRef<NzSafeAny>;
   @ViewChild('operationTpl', { static: true }) operationTpl!: TemplateRef<NzSafeAny>;
@@ -44,32 +38,14 @@ export class ClientsComponent implements OnInit{
     // desc: '表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。',
     breadcrumb: ['首页', '列表页', '查询表格']
   };
-  checkedCashArray: NzSafeAny[] = [
-    {
-      id: '1',
-      noShow: '默认不展示',
-      longText: '文字超级长文字超级长文字超级长文字超级长文字超级长文字超级长',
-      newline: '没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号',
-      addStyle: '加样式',
-      name: '自定义模板',
-      obj: { a: { b: '点出来的值1' } }
-    },
-    {
-      id: '2',
-      noShow: '默认不展示',
-      longText: '文字超级长',
-      newline: 'string',
-      name: '自定义模板',
-      addStyle: '加样式',
-      obj: { a: { b: '点出来的值1' } }
-    }
-  ]; // 需修改为对应业务的数据类型
+  checkedCashArray: NzSafeAny[] = []; // 需修改为对应业务的数据类型
   dataList: NzSafeAny[] = []; // 需修改为对应业务的数据类型
 
   private modalSrv = inject(NzModalService);
   private message = inject(NzMessageService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private api = inject(ClientService);
 
   // 最左侧复选框选中触发
   selectedChecked(e: NzSafeAny): void {
@@ -95,71 +71,17 @@ export class ClientsComponent implements OnInit{
   }
 
   getDataList(e?: NzTableQueryParams): void {
-    this.tableConfig.loading = true;
+    this.tableConfig.loading = false;
     this.dataList = [];
-    setTimeout(() => {
-      this.dataList = [
-        {
-          id: '1',
-          noShow: '默认不展示',
-          longText: '文字超级长文字超级长文字超级长文字超级长文字超级长文字超级长',
-          newline: '没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号没有省略号',
-          addStyle: '加样式',
-          name: '自定义模板',
-          obj: { a: { b: '点出来的值1' } }
-        },
-        {
-          id: '2',
-          noShow: '默认不展示',
-          longText: '文字超级长',
-          newline: 'string',
-          name: '自定义模板',
-          addStyle: '加样式',
-          obj: { a: { b: '点出来的值1' } }
-        },
-        {
-          id: '3',
-          noShow: '默认不展示',
-          longText: 'string',
-          newline: 'string',
-          name: '自定义模板',
-          addStyle: '加样式',
-          obj: { a: { b: '点出来的值1' } }
-        },
-        {
-          id: '4',
-          noShow: '默认不展示',
-          longText: 'string',
-          newline: 'string',
-          name: '自定义模板',
-          addStyle: '加样式',
-          obj: { a: { b: '点出来的值1' } }
-        },
-        {
-          id: '5',
-          noShow: '默认不展示',
-          longText: 'string',
-          newline: 'string',
-          name: '自定义模板',
-          addStyle: '加样式',
-          obj: { a: { b: '点出来的值1' } }
-        },
-        {
-          id: '6',
-          noShow: '默认不展示',
-          longText: 'string',
-          newline: 'string',
-          name: '自定义模板',
-          addStyle: '加样式',
-          obj: { a: { b: '点出来的值1' } }
-        }
-      ];
-      this.tableConfig.total = 13;
-      this.tableConfig.pageIndex = 1;
-      this.checkedCashArray = [...this.checkedCashArray];
-      this.tableLoading(false);
-    });
-
+    this.api
+      .getPage({
+        name: '123',
+        page: e?.pageIndex,
+        size: e?.pageSize
+      })
+      .subscribe(page => {
+        this.dataList = page.content;
+      });
     /*-----实际业务请求http接口如下------*/
     // this.tableConfig.loading = true;
     // const params: SearchCommonVO<NzSafeAny> = {
@@ -314,40 +236,40 @@ export class ClientsComponent implements OnInit{
     this.tableConfig = {
       headers: [
         {
-          title: '默认不显示',
+          title: 'id',
           width: 130,
-          field: 'noShow',
-          show: false
+          field: 'id',
+          show: true
         },
         {
-          title: '文字很长',
+          title: 'clientId',
           width: 130,
-          field: 'longText',
-          showSort: true
+          field: 'clientId',
+          show: true
         },
         {
-          title: '换行',
-          width: 100,
-          field: 'newline',
-          notNeedEllipsis: true,
-          showSort: true,
-          tdClassList: ['text-wrap']
+          title: 'clientName',
+          width: 130,
+          field: 'clientName',
+          show: true
         },
         {
-          title: '加样式',
-          width: 100,
-          field: 'addStyle',
-          tdClassList: ['operate-text']
+          title: 'clientAuthenticationMethods',
+          width: 130,
+          field: 'clientAuthenticationMethods',
+          show: true
         },
         {
-          title: '自定义模板',
-          field: 'name',
-          tdTemplate: this.highLightTpl,
-          width: 140
+          title: 'authorizationGrantTypes',
+          width: 130,
+          field: 'authorizationGrantTypes',
+          show: true
         },
         {
-          title: '对象点出来（obj.a.b）',
-          field: 'obj.a.b'
+          title: 'scopes',
+          width: 130,
+          field: 'scopes',
+          show: true
         },
         {
           title: '操作',

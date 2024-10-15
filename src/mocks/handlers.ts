@@ -1,5 +1,6 @@
 import { http, passthrough } from 'msw';
 
+import { apis } from './business/client_mock';
 import { department } from './business/department';
 import { login } from './business/login';
 import { menu } from './business/menu';
@@ -14,6 +15,7 @@ export const handlers = [
   ...user, // 用户列表
   ...department, // 部门
   ...other, // 其他
+  ...apis,
 
   http.get(/.*\.(js|svg|css|jpg|gif|png|woff2)$/, () => passthrough()),
   http.get('https://vdata.amap.com/tiles', () => passthrough()),
