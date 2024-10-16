@@ -18,7 +18,7 @@ interface PageResult<T> {
   number: number;
 }
 
-interface Clients {
+export interface Clients {
   id: string;
   clientId: string;
   clientIdIssuedAt: string;

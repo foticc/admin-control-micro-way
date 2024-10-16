@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ClientService } from '@app/api/client.service';
+import { ClientService,Clients } from '@app/api/client.service';
+import { FormsComponent } from '@app/pages/page/clients/forms/forms.component';
 import { AntTableComponent, AntTableConfig, SortFile } from '@shared/components/ant-table/ant-table.component';
 import { CardTableWrapComponent } from '@shared/components/card-table-wrap/card-table-wrap.component';
 import { PageHeaderType } from '@shared/components/page-header/page-header.component';
 import { WaterMarkComponent } from '@shared/components/water-mark/water-mark.component';
+import { ModalWrapService } from '@widget/base-modal';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzCardComponent } from 'ng-zorro-antd/card';
@@ -45,6 +47,7 @@ export class ClientsComponent implements OnInit {
   private message = inject(NzMessageService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private modalWrapService = inject(ModalWrapService);
   private api = inject(ClientService);
 
   // 最左侧复选框选中触发
@@ -113,9 +116,11 @@ export class ClientsComponent implements OnInit {
   }
 
   /*查看*/
-  check(name: string): void {
+  check(name: any): void {
     // skipLocationChange导航时不要把新状态记入历史时设置为true
-    this.router.navigate(['default/page-demo/list/search-table/search-table-detail', name, 123]);
+    // this.router.navigate(['default/page-demo/list/search-table/search-table-detail', name, 123]);
+    console.log(name);
+    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, {}, name);
   }
 
   add(): void {
@@ -140,16 +145,7 @@ export class ClientsComponent implements OnInit {
     //     this.addEditData(modalValue, 'editFireSys');
     //   }, error => this.tableLoading(false));
     // });
-    this.modalSrv.confirm({
-      nzTitle: 'Are you sure delete this task?',
-      nzContent: '<b style="color: red;">Some descriptions</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: false,
-      nzOnOk: () => console.log('OK'),
-      nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
-    });
+    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, {},);
   }
 
   // addEditData(param: FireSysObj, methodName: 'editFireSys' | 'addFireSys'): void {

@@ -1,6 +1,6 @@
 <div class="normal-table-wrap">
   <nz-card class="m-b-10" [nzBodyStyle]="{ 'padding-bottom': 0 }">
-    <app-water-mark />123123
+    <app-water-mark />
   </nz-card>
 
   <app-card-table-wrap [btnTpl]="tableBtns" [tableTitle]="'查询表格'" (reload)="reloadTable()">
@@ -13,8 +13,8 @@
       (selectedChange)="selectedChecked($event)"
       (sortFn)="changeSort($event)"
     ></app-ant-table>
-    <ng-template #operationTpl let-id="id" let-longText="longText">
-      <span class="operate-text" (click)="check(longText)">查看</span>
+    <ng-template #operationTpl let-id="id" let-ctx="$$dataItem">
+      <span class="operate-text" (click)="check(ctx)">查看</span>
       <!--添加了权限的写法-->
       <!-- <span *appAuth="ActionCode.FireSysSettingDel" class="operate-text" (click)="del(id)">删除</span>-->
       <span class="operate-text" (click)="del(id)">删除</span>
