@@ -1,15 +1,15 @@
 <form nz-form [formGroup]="addEditForm">
   <nz-form-item>
-    <nz-form-label nzFor="clientId" nzRequired [nzSm]="4" [nzXs]="24">角色名</nz-form-label>
-    <nz-form-control nzErrorTip="请输入角色名" [nzSm]="18" [nzXs]="24">
-      <input id="clientId" name="clientId" formControlName="clientId" nz-input placeholder="请输入角色名" />
+    <nz-form-label nzFor="clientId" nzRequired [nzSm]="4" [nzXs]="24">客户端</nz-form-label>
+    <nz-form-control nzErrorTip="请输入客户端名称" [nzSm]="18" [nzXs]="24">
+      <input id="clientId" name="clientId" formControlName="clientId" nz-input placeholder="请输入客户端名称" />
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
     <nz-form-label nzFor="clientIdIssuedAt" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
-      <input id="clientIdIssuedAt" name="clientIdIssuedAt" formControlName="clientIdIssuedAt" nz-input placeholder="请输入描述" />
+      <nz-date-picker id="clientIdIssuedAt" formControlName="clientIdIssuedAt" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"></nz-date-picker>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -19,9 +19,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzFor="clientSecretExpiresAt" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
+    <nz-form-label nzFor="clientSecretExpiresAt" [nzSm]="4" [nzXs]="24">过期时间</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
-      <input id="clientSecretExpiresAt" name="clientSecretExpiresAt" formControlName="clientSecretExpiresAt" nz-input placeholder="请输入描述" />
+      <nz-date-picker id="clientSecretExpiresAt" formControlName="clientSecretExpiresAt" nzShowTime nzFormat="yyyy-MM-ddTHH:mm:ssZ"></nz-date-picker>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -34,6 +34,12 @@
     <nz-form-label nzFor="clientAuthenticationMethods" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
       <input id="clientAuthenticationMethods" name="clientAuthenticationMethods" formControlName="clientAuthenticationMethods" nz-input placeholder="请输入描述" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="redirectUris" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
+    <nz-form-control [nzSm]="18" [nzXs]="24">
+      <input id="redirectUris" name="redirectUris" formControlName="redirectUris" nz-input placeholder="请输入描述" />
     </nz-form-control>
   </nz-form-item>
 </form>

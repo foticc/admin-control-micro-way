@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { Clients } from '@app/api/client.service';
 import { BasicConfirmModalComponent } from '@widget/base-modal';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent } from 'ng-zorro-antd/form';
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { NzInputDirective } from 'ng-zorro-antd/input';
@@ -15,7 +16,19 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
   selector: 'app-forms',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JsonPipe, FormsModule, NzColDirective, NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzInputDirective, NzRowDirective, ReactiveFormsModule],
+  imports: [
+    JsonPipe,
+    FormsModule,
+    NzColDirective,
+    NzFormControlComponent,
+    NzFormDirective,
+    NzFormItemComponent,
+    NzFormLabelComponent,
+    NzInputDirective,
+    NzRowDirective,
+    ReactiveFormsModule,
+    NzDatePickerComponent
+  ],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.less'
 })
@@ -28,7 +41,7 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
   override modalRef = inject(NzModalRef);
 
   getCurrentValue(): NzSafeAny {
-    console.log('hhaha');
+    console.log(this.addEditForm.value);
     return of({});
   }
 
@@ -39,7 +52,9 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
       clientSecret: [null, [Validators.required]],
       clientSecretExpiresAt: [null, [Validators.required]],
       clientName: [null, [Validators.required]],
-      clientAuthenticationMethods: [null, [Validators.required]]
+      clientAuthenticationMethods: [null, [Validators.required]],
+      authorizationGrantTypes: [null, [Validators.required]],
+      redirectUris: [null, [Validators.required]]
     });
   }
 
