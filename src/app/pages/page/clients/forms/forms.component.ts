@@ -1,27 +1,52 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { of } from 'rxjs';
 
+import { Clients } from '@app/api/client.service';
 import { BasicConfirmModalComponent } from '@widget/base-modal';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent } from 'ng-zorro-antd/form';
+import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
+import { NzInputDirective } from 'ng-zorro-antd/input';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-forms',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JsonPipe],
+  imports: [JsonPipe, FormsModule, NzColDirective, NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent, NzInputDirective, NzRowDirective, ReactiveFormsModule],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.less'
 })
 export class FormsComponent extends BasicConfirmModalComponent implements OnInit {
-  @Input('params')
-  data: NzSafeAny;
+  addEditForm!: FormGroup;
+  private fb = inject(FormBuilder);
+
+  readonly nzModalData: Clients = inject(NZ_MODAL_DATA);
+
+  override modalRef = inject(NzModalRef);
 
   getCurrentValue(): NzSafeAny {
     console.log('hhaha');
-    return {};
+    return of({});
+  }
+
+  initForm(): void {
+    this.addEditForm = this.fb.group({
+      clientId: [null, [Validators.required]],
+      clientIdIssuedAt: [null, [Validators.required]],
+      clientSecret: [null, [Validators.required]],
+      clientSecretExpiresAt: [null, [Validators.required]],
+      clientName: [null, [Validators.required]],
+      clientAuthenticationMethods: [null, [Validators.required]]
+    });
   }
 
   ngOnInit(): void {
-    this.data = this.modalRef.getConfig().nzData;
+    this.initForm();
+    if (!!this.nzModalData) {
+      this.addEditForm.patchValue(this.nzModalData);
+    }
   }
 }

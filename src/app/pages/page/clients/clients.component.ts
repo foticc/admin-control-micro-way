@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ClientService,Clients } from '@app/api/client.service';
+import { ClientService, Clients } from '@app/api/client.service';
 import { FormsComponent } from '@app/pages/page/clients/forms/forms.component';
 import { AntTableComponent, AntTableConfig, SortFile } from '@shared/components/ant-table/ant-table.component';
 import { CardTableWrapComponent } from '@shared/components/card-table-wrap/card-table-wrap.component';
@@ -83,7 +83,11 @@ export class ClientsComponent implements OnInit {
         size: e?.pageSize
       })
       .subscribe(page => {
-        this.dataList = page.content;
+        const { content, totalElements, number } = page;
+        this.dataList = content;
+        this.tableConfig.loading = false;
+        this.tableConfig.total = totalElements;
+        this.tableConfig.pageSize = totalElements;
       });
     /*-----实际业务请求http接口如下------*/
     // this.tableConfig.loading = true;
@@ -120,7 +124,7 @@ export class ClientsComponent implements OnInit {
     // skipLocationChange导航时不要把新状态记入历史时设置为true
     // this.router.navigate(['default/page-demo/list/search-table/search-table-detail', name, 123]);
     console.log(name);
-    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, {}, name);
+    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '查看哈哈', nzDraggable: false, nzOnOk: () => {} }, name).subscribe(res => {});
   }
 
   add(): void {
@@ -131,10 +135,11 @@ export class ClientsComponent implements OnInit {
     //   this.tableLoading(true);
     //   this.addEditData(res.modalValue, 'addFireSys');
     // }, error => this.tableLoading(false));
+    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '新增', nzDraggable: false, nzOnOk: () => {} }).subscribe(res => {});
   }
 
   // 修改
-  edit(id: number): void {
+  edit(id: number, row: any): void {
     // this.dataService.getFireSysDetail(id).subscribe(res => {
     //   this.modalService.show({nzTitle: '编辑'}, res).subscribe(({modalValue, status}) => {
     //     if (status === ModalBtnStatus.Cancel) {
@@ -145,7 +150,7 @@ export class ClientsComponent implements OnInit {
     //     this.addEditData(modalValue, 'editFireSys');
     //   }, error => this.tableLoading(false));
     // });
-    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, {},);
+    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '编辑', nzDraggable: false, nzOnOk: () => {} }, row).subscribe(res => {});
   }
 
   // addEditData(param: FireSysObj, methodName: 'editFireSys' | 'addFireSys'): void {
