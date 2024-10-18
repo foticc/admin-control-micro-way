@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import {delay, http, HttpResponse} from 'msw';
 
 const content = [
   {
@@ -126,7 +126,8 @@ const clietsList = http.get('/site/api/client/manager/page', () => {
   });
 });
 
-const save = http.post('/site/api/client/manage/save', params => {
+const save = http.post('/site/api/client/manage/save', async params => {
+  await delay(10000);
   return HttpResponse.json({
     code: 400,
     msg: 'error',
