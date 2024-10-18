@@ -14,7 +14,7 @@
       (sortFn)="changeSort($event)"
     ></app-ant-table>
     <ng-template #operationTpl let-id="id" let-ctx="$$dataItem">
-      <span class="operate-text" (click)="check(ctx)">查看</span>
+      <span class="operate-text" (click)="check(id)">查看</span>
       <!--添加了权限的写法-->
       <!-- <span *appAuth="ActionCode.FireSysSettingDel" class="operate-text" (click)="del(id)">删除</span>-->
       <span class="operate-text" (click)="del(id)">删除</span>

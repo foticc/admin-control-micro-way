@@ -2,8 +2,10 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { Clients } from '@app/api/client.service';
+import { Clients, ClientService } from '@app/api/client.service';
+import { fnCheckForm } from '@utils/tools';
 import { BasicConfirmModalComponent } from '@widget/base-modal';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
@@ -35,14 +37,21 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 export class FormsComponent extends BasicConfirmModalComponent implements OnInit {
   addEditForm!: FormGroup;
   private fb = inject(FormBuilder);
+  private api = inject(ClientService);
 
   readonly nzModalData: Clients = inject(NZ_MODAL_DATA);
 
   override modalRef = inject(NzModalRef);
 
   getCurrentValue(): NzSafeAny {
-    console.log(this.addEditForm.value);
-    return of({});
+    if (!fnCheckForm(this.addEditForm)) {
+      return of(false);
+    }
+    return this.api.save(this.addEditForm.value).pipe(
+      catchError(() => {
+        return of(false);
+      })
+    );
   }
 
   initForm(): void {
@@ -60,6 +69,7 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
 
   ngOnInit(): void {
     this.initForm();
+    console.log(this.modalRef);
     if (!!this.nzModalData) {
       this.addEditForm.patchValue(this.nzModalData);
     }

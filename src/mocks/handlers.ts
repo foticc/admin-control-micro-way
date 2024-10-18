@@ -1,6 +1,6 @@
+import { apis } from '@app/pages/page/mock/client_mock';
 import { http, passthrough } from 'msw';
 
-import { apis } from './business/client_mock';
 import { department } from './business/department';
 import { login } from './business/login';
 import { menu } from './business/menu';

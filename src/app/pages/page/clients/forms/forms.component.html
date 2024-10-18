@@ -21,7 +21,7 @@
   <nz-form-item>
     <nz-form-label nzFor="clientSecretExpiresAt" [nzSm]="4" [nzXs]="24">过期时间</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
-      <nz-date-picker id="clientSecretExpiresAt" formControlName="clientSecretExpiresAt" nzShowTime nzFormat="yyyy-MM-ddTHH:mm:ssZ"></nz-date-picker>
+      <nz-date-picker id="clientSecretExpiresAt" formControlName="clientSecretExpiresAt" nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"></nz-date-picker>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
@@ -40,6 +40,12 @@
     <nz-form-label nzFor="redirectUris" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
       <input id="redirectUris" name="redirectUris" formControlName="redirectUris" nz-input placeholder="请输入描述" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="authorizationGrantTypes" [nzSm]="4" [nzXs]="24">描述</nz-form-label>
+    <nz-form-control [nzSm]="18" [nzXs]="24">
+      <input id="authorizationGrantTypes" name="authorizationGrantTypes" formControlName="authorizationGrantTypes" nz-input placeholder="请输入描述" />
     </nz-form-control>
   </nz-form-item>
 </form>

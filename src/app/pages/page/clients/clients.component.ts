@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
 import { ClientService, Clients } from '@app/api/client.service';
@@ -7,7 +8,7 @@ import { AntTableComponent, AntTableConfig, SortFile } from '@shared/components/
 import { CardTableWrapComponent } from '@shared/components/card-table-wrap/card-table-wrap.component';
 import { PageHeaderType } from '@shared/components/page-header/page-header.component';
 import { WaterMarkComponent } from '@shared/components/water-mark/water-mark.component';
-import { ModalWrapService } from '@widget/base-modal';
+import {ModalBtnStatus, ModalWrapService} from '@widget/base-modal';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzCardComponent } from 'ng-zorro-antd/card';
@@ -42,10 +43,10 @@ export class ClientsComponent implements OnInit {
   };
   checkedCashArray: NzSafeAny[] = []; // 需修改为对应业务的数据类型
   dataList: NzSafeAny[] = []; // 需修改为对应业务的数据类型
+  destroyRef = inject(DestroyRef);
 
   private modalSrv = inject(NzModalService);
   private message = inject(NzMessageService);
-  private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private modalWrapService = inject(ModalWrapService);
   private api = inject(ClientService);
@@ -120,11 +121,16 @@ export class ClientsComponent implements OnInit {
   }
 
   /*查看*/
-  check(name: any): void {
+  check(id: any): void {
     // skipLocationChange导航时不要把新状态记入历史时设置为true
     // this.router.navigate(['default/page-demo/list/search-table/search-table-detail', name, 123]);
-    console.log(name);
-    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '查看哈哈', nzDraggable: false, nzOnOk: () => {} }, name).subscribe(res => {});
+    console.log(id);
+    this.api
+      .getOne(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => {
+        this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '查看', nzDraggable: false, nzOnOk: () => {} }, res).subscribe(res => {});
+      });
   }
 
   add(): void {
@@ -135,7 +141,15 @@ export class ClientsComponent implements OnInit {
     //   this.tableLoading(true);
     //   this.addEditData(res.modalValue, 'addFireSys');
     // }, error => this.tableLoading(false));
-    this.modalWrapService.show<FormsComponent, Clients>(FormsComponent, { nzTitle: '新增', nzDraggable: false, nzOnOk: () => {} }).subscribe(res => {});
+    this.modalWrapService
+      .show<FormsComponent, Clients>(FormsComponent, {
+        nzTitle: '新增'
+      })
+      .subscribe(res => {
+        if (!res || res.status === ModalBtnStatus.Cancel) {
+          return;
+        }
+      });
   }
 
   // 修改
@@ -159,30 +173,17 @@ export class ClientsComponent implements OnInit {
   //   });
   // }
 
-  del(id: number): void {
+  del(id: string): void {
     this.modalSrv.confirm({
       nzTitle: '确定要删除吗？',
       nzContent: '删除后不可恢复',
       nzOnOk: () => {
         this.tableLoading(true);
         /*注释的是模拟接口调用*/
-        // this.dataService.delFireSys([id]).subscribe(() => {
-        //   if (this.dataList.length === 1) {
-        //     this.tableConfig.pageIndex--;
-        //   }
-        //   this.getDataList();
-        //   this.checkedCashArray.splice(this.checkedCashArray.findIndex(item => item.id === id), 1);
-        // }, error => this.tableLoading(false));
-
-        setTimeout(() => {
-          this.message.info(`id数组(支持分页保存):${JSON.stringify(id)}`);
+        this.api.delete(id).subscribe(res => {
           this.getDataList();
-          this.checkedCashArray.splice(
-            this.checkedCashArray.findIndex(item => item.id === id),
-            1
-          );
           this.tableLoading(false);
-        }, 3000);
+        });
       }
     });
   }

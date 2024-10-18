@@ -42,4 +42,16 @@ export class ClientService {
   getPage(params: QueryParams): Observable<PageResult<Clients>> {
     return this.http.get('/client/manager/page', params);
   }
+
+  getOne(id: string): Observable<Clients> {
+    return this.http.get('/client/manage/get', { id });
+  }
+
+  save(client: Clients): Observable<Clients> {
+    return this.http.post('/client/manage/save', client);
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.post('/client/manage/delete', { id: id });
+  }
 }
