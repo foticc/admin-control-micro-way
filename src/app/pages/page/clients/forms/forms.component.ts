@@ -16,6 +16,7 @@ import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import {NzRadioComponent, NzRadioGroupComponent} from "ng-zorro-antd/radio";
 import {NzCheckboxComponent, NzCheckboxGroupComponent} from "ng-zorro-antd/checkbox";
+import {NzOptionComponent, NzSelectComponent} from "ng-zorro-antd/select";
 
 @Component({
   selector: 'app-forms',
@@ -37,7 +38,9 @@ import {NzCheckboxComponent, NzCheckboxGroupComponent} from "ng-zorro-antd/check
     NzRadioGroupComponent,
     NzRadioComponent,
     NzCheckboxGroupComponent,
-    NzCheckboxComponent
+    NzCheckboxComponent,
+    NzSelectComponent,
+    NzOptionComponent
   ],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.less'
@@ -89,4 +92,6 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
       this.addEditForm.patchValue(this.nzModalData);
     }
   }
+
+  protected readonly sessionStorage = sessionStorage;
 }

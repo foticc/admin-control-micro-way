@@ -50,9 +50,11 @@
   <nz-form-item>
     <nz-form-label nzFor="authorizationGrantTypes" [nzSm]="4" [nzXs]="24">授权方式</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
-      <nz-checkbox-group id="authorizationGrantTypes" formControlName="authorizationGrantTypes">
-        
-      </nz-checkbox-group>
+      <nz-select id="authorizationGrantTypes" formControlName="authorizationGrantTypes" nzMode="multiple" nzShowArrow="true">
+        @for (option of checkOptionsOne; track option.value) {
+          <nz-option [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
+        }
+      </nz-select>
     </nz-form-control>
   </nz-form-item>
 </form>
