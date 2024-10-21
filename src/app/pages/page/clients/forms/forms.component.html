@@ -51,11 +51,9 @@
     <nz-form-label nzFor="authorizationGrantTypes" [nzSm]="4" [nzXs]="24">授权方式</nz-form-label>
     <nz-form-control [nzSm]="18" [nzXs]="24">
       <nz-checkbox-group id="authorizationGrantTypes" formControlName="authorizationGrantTypes">
-        <label nz-checkbox nzValue="1">B</label>
-        <label nz-checkbox nzValue="2">2</label>
-        <label nz-checkbox nzValue="3">3</label>
-        <label nz-checkbox nzValue="4">4</label>
-        <label nz-checkbox nzValue="5">5</label>
+        <label *ngFor="let option of checkOptionsOne">
+          <nz-checkbox>{{ option.label }}</nz-checkbox>
+        </label>
       </nz-checkbox-group>
     </nz-form-control>
   </nz-form-item>
