@@ -8,7 +8,7 @@ import { AntTableComponent, AntTableConfig, SortFile } from '@shared/components/
 import { CardTableWrapComponent } from '@shared/components/card-table-wrap/card-table-wrap.component';
 import { PageHeaderType } from '@shared/components/page-header/page-header.component';
 import { WaterMarkComponent } from '@shared/components/water-mark/water-mark.component';
-import {ModalBtnStatus, ModalWrapService} from '@widget/base-modal';
+import { ModalBtnStatus, ModalWrapService } from '@widget/base-modal';
 import { NzBadgeComponent } from 'ng-zorro-antd/badge';
 import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzCardComponent } from 'ng-zorro-antd/card';

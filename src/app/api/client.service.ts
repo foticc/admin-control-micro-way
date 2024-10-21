@@ -18,19 +18,19 @@ interface PageResult<T> {
 }
 
 export interface Clients {
-  id: string;
-  clientId: string;
-  clientIdIssuedAt: string;
-  clientSecret: string;
-  clientSecretExpiresAt: string;
-  clientName: string;
-  clientAuthenticationMethods: string;
-  authorizationGrantTypes: string;
-  redirectUris: string;
-  postLogoutRedirectUris: string;
-  scopes: string;
-  clientSettings: string;
-  tokenSettings: string;
+  id: string | null;
+  clientId: string | null;
+  clientIdIssuedAt: string | null;
+  clientSecret: string | null;
+  clientSecretExpiresAt: Date | null;
+  clientName: string | null;
+  clientAuthenticationMethods: string | null;
+  authorizationGrantTypes: string | null;
+  redirectUris: string | null;
+  postLogoutRedirectUris: string | null;
+  scopes: string | null;
+  clientSettings: string | null;
+  tokenSettings: string | null;
 }
 
 @Injectable({

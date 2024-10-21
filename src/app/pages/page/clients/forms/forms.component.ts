@@ -1,12 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Clients, ClientService } from '@app/api/client.service';
 import { fnCheckForm } from '@utils/tools';
 import { BasicConfirmModalComponent } from '@widget/base-modal';
+import { NzButtonComponent } from 'ng-zorro-antd/button';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLabelComponent } from 'ng-zorro-antd/form';
@@ -29,7 +30,8 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
     NzInputDirective,
     NzRowDirective,
     ReactiveFormsModule,
-    NzDatePickerComponent
+    NzDatePickerComponent,
+    NzButtonComponent
   ],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.less'
@@ -69,7 +71,9 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
 
   ngOnInit(): void {
     this.initForm();
-    console.log(this.modalRef);
+    this.modalRef.updateConfig({
+      nzTitle: '更新名称'
+    });
     if (!!this.nzModalData) {
       this.addEditForm.patchValue(this.nzModalData);
     }
