@@ -14,6 +14,8 @@ import { NzFormControlComponent, NzFormDirective, NzFormItemComponent, NzFormLab
 import { NzColDirective, NzRowDirective } from 'ng-zorro-antd/grid';
 import { NzInputDirective } from 'ng-zorro-antd/input';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import {NzRadioComponent, NzRadioGroupComponent} from "ng-zorro-antd/radio";
+import {NzCheckboxComponent, NzCheckboxGroupComponent} from "ng-zorro-antd/checkbox";
 
 @Component({
   selector: 'app-forms',
@@ -31,7 +33,11 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
     NzRowDirective,
     ReactiveFormsModule,
     NzDatePickerComponent,
-    NzButtonComponent
+    NzButtonComponent,
+    NzRadioGroupComponent,
+    NzRadioComponent,
+    NzCheckboxGroupComponent,
+    NzCheckboxComponent
   ],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.less'
@@ -44,6 +50,11 @@ export class FormsComponent extends BasicConfirmModalComponent implements OnInit
   readonly nzModalData: Clients = inject(NZ_MODAL_DATA);
 
   override modalRef = inject(NzModalRef);
+  checkOptionsOne = [
+    { label: 'Apple', value: 'Apple', checked: true },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange' }
+  ];
 
   getCurrentValue(): NzSafeAny {
     if (!fnCheckForm(this.addEditForm)) {
