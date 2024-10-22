@@ -81,9 +81,9 @@ export class ModalWrapService {
     return modalContentCompInstance.modalRef.destroy({ status: ModalBtnStatus.Cancel, modalValue: null });
   }
 
-  private confirmCallback<T extends BasicConfirmModalComponent>(modalContentCompInstance: T): void {
+  private confirmCallback<T extends BasicConfirmModalComponent>(modalContentCompInstance: T): Promise<NzSafeAny> {
     this.modalCompVerification(modalContentCompInstance);
-    modalContentCompInstance.modalRef.componentInstance
+    return modalContentCompInstance.modalRef.componentInstance
       .getCurrentValue()
       .pipe(
         tap(modalValue => {
@@ -96,7 +96,7 @@ export class ModalWrapService {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe();
+      .toPromise();
   }
 
   modalCompVerification(modalContentCompInstance: BasicConfirmModalComponent): void {
@@ -182,6 +182,7 @@ export class ModalWrapService {
         {
           label: '确认',
           type: 'primary',
+          autoLoading: true,
           show: true,
           onClick: this.confirmCallback.bind(this)<T>
         },

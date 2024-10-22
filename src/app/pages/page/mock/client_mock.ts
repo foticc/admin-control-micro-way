@@ -129,8 +129,8 @@ const clietsList = http.get('/site/api/client/manager/page', () => {
 const save = http.post('/site/api/client/manage/save', async params => {
   await delay(3000);
   return HttpResponse.json({
-    code: 400,
-    msg: 'error',
+    code: 0,
+    msg: 'message',
     data: content[0]
   });
 });
