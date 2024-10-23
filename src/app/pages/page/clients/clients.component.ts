@@ -149,6 +149,7 @@ export class ClientsComponent implements OnInit {
         if (!res || res.status === ModalBtnStatus.Cancel) {
           return;
         }
+        this.reloadTable();
       });
   }
 
